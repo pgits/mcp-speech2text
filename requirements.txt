@@ -1,0 +1,8 @@
+aiohttp==3.8.5
+aiofiles==23.2.0
+numpy==1.24.3
+soundfile==0.12.1
+cryptography==41.0.3
+openai-whisper==20231117
+torch>=1.13.0
+torchaudio>=0.13.0
