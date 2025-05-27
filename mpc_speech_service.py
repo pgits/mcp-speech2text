@@ -354,9 +354,15 @@ class MPCSpeechService:
         app.router.add_get('/ws', self.handle_websocket)
         app.router.add_get('/status', self.handle_status)
         
-        # Add CORS middleware
+        # Fixed CORS middleware
+        @web.middleware
         async def cors_middleware(request, handler):
-            response = await handler(request)
+            if request.method == 'OPTIONS':
+                # Handle preflight requests
+                response = web.Response()
+            else:
+                response = await handler(request)
+            
             response.headers['Access-Control-Allow-Origin'] = '*'
             response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
             response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, X-Session-ID, X-Encrypt-Response'
