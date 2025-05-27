@@ -42,7 +42,7 @@ class MPCSpeechClient:
                         self.auth_token = result["token"]
                         self.encryption_key = base64.b64decode(result["encryption_key"])
                         self.cipher = Fernet(self.encryption_key)
-                        logger.info("Authentication successful")
+                        # logger.info("Authentication successful")
                         return True
                     else:
                         error_text = await response.text()
