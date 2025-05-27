@@ -40,12 +40,7 @@ class WhisperHTTPService:
         
         # Auto-detect device if not specified
         if device == "auto":
-            if torch.cuda.is_available():
-                self.device = "cuda"
-            elif hasattr(torch.backends, 'mps') and torch.backends.mps.is_available():
-                self.device = "mps"  # Apple Silicon
-            else:
-                self.device = "cpu"
+            self.device = "cpu"  # Force CPU usage
         else:
             self.device = device
             
@@ -247,6 +242,7 @@ class WhisperHTTPService:
         app.router.add_get('/models', self.handle_models)
         
         # Add CORS middleware
+        @web.middleware
         async def cors_middleware(request, handler):
             if request.method == 'OPTIONS':
                 # Handle preflight requests

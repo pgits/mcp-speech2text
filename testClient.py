@@ -33,7 +33,11 @@ async def main():
         
         if result.get("status") == "success":
             transcription = result.get("transcription", {})
-            text = transcription.get("text", "No text found")
+            if isinstance(transcription, dict):
+                result_data = transcription.get("result", {})
+                text = result_data.get("text", "No text found")
+            else:
+                text = "No text found"
             print(f"✅ Transcribed text: '{text}'")
         else:
             print(f"❌ Transcription failed: {result.get('error')}")
